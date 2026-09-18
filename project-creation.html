@@ -207,8 +207,113 @@
       font-size: 13px;
       margin-top: 48px;
       border-top: 1px solid var(--border-subtle);
-      padding-top: 24px;
+      /* Search Bar Component */
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      max-width: 340px;
+      margin: 0 14px;
     }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 6px 14px;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 12px var(--accent-cyan-dim);
+    }
+
+    .search-input {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      width: 100%;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dim);
+      font-size: 12px;
+    }
+
+    .search-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-highlight);
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      max-height: 380px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .search-dropdown.active { display: block; }
+
+    .search-result-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .search-result-item:hover { background: var(--bg-surface-elevated); }
+    .search-result-title { font-size: 13px; font-weight: 700; color: var(--accent-cyan); display: flex; align-items: center; gap: 6px; }
+    .search-result-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* Cross-navigation section */
+    .cross-nav-section {
+      margin-top: 36px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .cross-nav-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cross-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .cross-nav-item {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .cross-nav-item:hover { border-color: var(--accent-cyan); transform: translateY(-2px); }
+    .cross-nav-item .label { font-size: 14px; font-weight: 700; color: var(--text-main); }
+    .cross-nav-item .desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
   </style>
 </head>
 <body>
@@ -218,6 +323,16 @@
       <span class="brand-pill">Provenance</span>
       <div class="brand-title">📜 Prompt History & Step-by-Step Evolution</div>
     </div>
+
+    <!-- Live Search Component -->
+    <div class="search-wrap">
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" class="search-input" id="globalSearch" placeholder="Search pages, telemetry, topics... (Press '/' to focus)" oninput="handleSearch(this.value)" autocomplete="off" />
+      </div>
+      <div class="search-dropdown" id="searchDropdown"></div>
+    </div>
+
     <nav>
       <a href="index.html" class="nav-link">🥽 Interface Analyzer</a>
       <a href="execution-report.html" class="nav-link">📋 Execution Report</a>
@@ -313,6 +428,28 @@ create a document for all my prompts that are givin in the back, and add that to
       </div>
     </div>
 
+    <!-- Prompt 3, 4, 5 Section -->
+    <div class="card">
+      <div class="card-title">
+        <span>💬</span> User Requests #3 – #5: Top Search, Bidirectional Links & Git Push Sync
+        <span class="badge green" style="margin-left: auto;">Omnipresent Navigation</span>
+      </div>
+      <p style="color: var(--text-muted); font-size: 14px;">The user requested cross-cutting discovery via an omnipresent search bar, bidirectional cross-linking across all analytical pages, and repository deployment:</p>
+      
+      <div class="prompt-box">mke sure there is search on the top and there are bidirectional links between pages
+git push</div>
+
+      <div style="background: var(--bg-surface-elevated); padding: 16px; border-radius: var(--radius-sm); border-left: 3px solid var(--accent-green); margin-top: 14px;">
+        <strong style="color: var(--accent-green);">⚙️ Agent Execution Actions:</strong>
+        <ul style="margin-left: 20px; font-size: 13px; color: var(--text-muted); margin-top: 6px; line-height: 1.7;">
+          <li>Architected unified global search bar across all 6 pages with instant client-side substring matching and keyboard shortcut <code>/</code>.</li>
+          <li>Constructed bidirectional cross-navigation grid on all pages connecting Analyzer, Execution Report, Cost, Calculator, Sanity Check, and Prompt History.</li>
+          <li>Updated Architectural Decision Records (ADR-04) documenting omni-directional navigation topology.</li>
+          <li>Synchronized git state, committed all assets, and pushed to remote GitHub repository.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- Architectural Decisions Matrix -->
     <div class="card">
       <div class="card-title">🏛️ Architectural Decision Records (ADRs)</div>
@@ -341,8 +478,45 @@ create a document for all my prompts that are givin in the back, and add that to
             <strong>Rationale:</strong> Matches empirical frame data in The Forest VR where the billboarding quad disappears within a single frame (&lt;33.3ms) to immediately unblock the player's line of sight for physicalized campfire feedback.
           </div>
         </div>
+
+        <div style="background: var(--bg-surface-elevated); padding: 16px; border-radius: var(--radius-sm);">
+          <div style="font-weight: 700; color: var(--accent-green); font-size: 14px;">ADR-04: Client-Side Global Search & Bidirectional Navigation Mesh</div>
+          <div style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+            <strong>Decision:</strong> Implement an in-memory client search index and bottom cross-nav mesh rather than relying on server-side queries or monolithic navigation trees.<br>
+            <strong>Rationale:</strong> Zero network roundtrips, works identically on local static files and GitHub Pages, and ensures users never encounter a navigation dead-end.
+          </div>
+        </div>
       </div>
 
+    </div>
+
+    <!-- 🧭 Bidirectional Cross-Navigation Grid -->
+    <div class="cross-nav-section">
+      <div class="cross-nav-title">
+        <span>🧭</span> Bidirectional Navigation & Related Analytical Modules
+      </div>
+      <div class="cross-nav-grid">
+        <a href="index.html" class="cross-nav-item">
+          <span class="label">🥽 Interface Analyzer</span>
+          <span class="desc">Scrub all 144 frames interactively with synchronized video playback.</span>
+        </a>
+        <a href="execution-report.html" class="cross-nav-item">
+          <span class="label">📋 Execution Report</span>
+          <span class="desc">One-page engineering summary with terminal commands and telemetry.</span>
+        </a>
+        <a href="cost.html" class="cross-nav-item">
+          <span class="label">💰 Local vs Cloud Cost</span>
+          <span class="desc">TCO comparison between Apple Silicon and AWS EC2 GPU infrastructure.</span>
+        </a>
+        <a href="calculator.html" class="cross-nav-item">
+          <span class="label">🧮 Interactive Calculator</span>
+          <span class="desc">Parametric financial model to forecast operational expenditure savings.</span>
+        </a>
+        <a href="sanity-check.html" class="cross-nav-item">
+          <span class="label">🩺 System Sanity Check</span>
+          <span class="desc">Live diagnostic suite verifying media integrity and port 30081 compliance.</span>
+        </a>
+      </div>
     </div>
 
   </div>
@@ -351,5 +525,61 @@ create a document for all my prompts that are givin in the back, and add that to
     <p>VR/XR Interface Analysis Framework &bull; Local server active on port 30081 &bull; Prompt History</p>
   </footer>
 
+  <script>
+    const searchIndex = [
+      { title: "🥽 Spatial Interface Analyzer", url: "index.html", desc: "Interactive dual video/frame scrubber, 4K zoom, 144 frames telemetry" },
+      { title: "🎯 Trigger Event Analysis", url: "index.html#tab0", desc: "6-DoF controller raycast, proximity collision, Frame 0094 commit" },
+      { title: "📐 Motion & Physics", url: "index.html#tab1", desc: "Yaw billboarding, unlit shader, harmonic hover, splinter explosion" },
+      { title: "💥 System State: DESTROYED", url: "index.html#tab2", desc: "Instant zero-latency UI despawn and dynamic log fracture" },
+      { title: "📋 Execution Report", url: "execution-report.html", desc: "One-page engineering report, ingestion metrics, terminal pipeline" },
+      { title: "⚡ Terminal Execution Pipeline", url: "execution-report.html#pipeline", desc: "yt-dlp segment isolation & ffmpeg 30 FPS image splitting" },
+      { title: "💰 Local vs Cloud Cost Architecture", url: "cost.html", desc: "Total Cost of Ownership, Apple Silicon vs AWS EC2 GPU / Lambda" },
+      { title: "📊 Line-Item Expense Matrix", url: "cost.html#matrix", desc: "Per-clip expense comparison ($0.0018 local vs $0.1140 cloud)" },
+      { title: "🧮 Interactive ROI Calculator", url: "calculator.html", desc: "Live parametric sliders for video volume, resolution, FPS, and OpEx" },
+      { title: "🩺 System Sanity Check Suite", url: "sanity-check.html", desc: "Automated test runner: video streams, frame assets, port 30081" },
+      { title: "📜 Prompt History & Provenance", url: "project-creation.html", desc: "Complete verbatim prompt ledger and Architectural Decision Records" },
+      { title: "🏛️ Architectural Decision Records", url: "project-creation.html#adrs", desc: "ADR-01 local processing, ADR-02 dual-res pipeline, ADR-03 instant despawn" }
+    ];
+
+    function handleSearch(query) {
+      const dropdown = document.getElementById('searchDropdown');
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        dropdown.classList.remove('active');
+        dropdown.innerHTML = '';
+        return;
+      }
+      const matches = searchIndex.filter(item => 
+        item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
+      );
+      if (matches.length === 0) {
+        dropdown.innerHTML = `<div style="padding: 12px; font-size: 12px; color: var(--text-dim); text-align: center;">No matching analytical modules found</div>`;
+      } else {
+        dropdown.innerHTML = matches.map(item => `
+          <a href="${item.url}" class="search-result-item">
+            <div class="search-result-title">${item.title}</div>
+            <div class="search-result-desc">${item.desc}</div>
+          </a>
+        `).join('');
+      }
+      dropdown.classList.add('active');
+    }
+
+    document.addEventListener('click', (e) => {
+      const wrap = document.querySelector('.search-wrap');
+      if (wrap && !wrap.contains(e.target)) {
+        document.getElementById('searchDropdown').classList.remove('active');
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== document.getElementById('globalSearch')) {
+        e.preventDefault();
+        document.getElementById('globalSearch').focus();
+      } else if (e.key === 'Escape') {
+        document.getElementById('searchDropdown').classList.remove('active');
+      }
+    });
+  </script>
 </body>
 </html>

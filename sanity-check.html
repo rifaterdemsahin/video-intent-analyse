@@ -661,6 +661,62 @@
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(runDiagnostics, 300);
     });
+
+    // Global Top Search
+    const searchIndex = [
+      { title: "🥽 Spatial Interface Analyzer", url: "index.html", desc: "Interactive dual video/frame scrubber, 4K zoom, 144 frames telemetry" },
+      { title: "🎯 Trigger Event Analysis", url: "index.html#tab0", desc: "6-DoF controller raycast, proximity collision, Frame 0094 commit" },
+      { title: "📐 Motion & Physics", url: "index.html#tab1", desc: "Yaw billboarding, unlit shader, harmonic hover, splinter explosion" },
+      { title: "💥 System State: DESTROYED", url: "index.html#tab2", desc: "Instant zero-latency UI despawn and dynamic log fracture" },
+      { title: "📋 Execution Report", url: "execution-report.html", desc: "One-page engineering report, ingestion metrics, terminal pipeline" },
+      { title: "⚡ Terminal Execution Pipeline", url: "execution-report.html#pipeline", desc: "yt-dlp segment isolation & ffmpeg 30 FPS image splitting" },
+      { title: "💰 Local vs Cloud Cost Architecture", url: "cost.html", desc: "Total Cost of Ownership, Apple Silicon vs AWS EC2 GPU / Lambda" },
+      { title: "📊 Line-Item Expense Matrix", url: "cost.html#matrix", desc: "Per-clip expense comparison ($0.0018 local vs $0.1140 cloud)" },
+      { title: "🧮 Interactive ROI Calculator", url: "calculator.html", desc: "Live parametric sliders for video volume, resolution, FPS, and OpEx" },
+      { title: "🩺 System Sanity Check Suite", url: "sanity-check.html", desc: "Automated test runner: video streams, frame assets, port 30081" },
+      { title: "📜 Prompt History & Provenance", url: "project-creation.html", desc: "Complete verbatim prompt ledger and Architectural Decision Records" },
+      { title: "🏛️ Architectural Decision Records", url: "project-creation.html#adrs", desc: "ADR-01 local processing, ADR-02 dual-res pipeline, ADR-03 instant despawn" }
+    ];
+
+    function handleSearch(query) {
+      const dropdown = document.getElementById('searchDropdown');
+      const q = query.trim().toLowerCase();
+      if (!q) {
+        dropdown.classList.remove('active');
+        dropdown.innerHTML = '';
+        return;
+      }
+      const matches = searchIndex.filter(item => 
+        item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
+      );
+      if (matches.length === 0) {
+        dropdown.innerHTML = `<div style="padding: 12px; font-size: 12px; color: var(--text-dim); text-align: center;">No matching analytical modules found</div>`;
+      } else {
+        dropdown.innerHTML = matches.map(item => `
+          <a href="${item.url}" class="search-result-item">
+            <div class="search-result-title">${item.title}</div>
+            <div class="search-result-desc">${item.desc}</div>
+          </a>
+        `).join('');
+      }
+      dropdown.classList.add('active');
+    }
+
+    document.addEventListener('click', (e) => {
+      const wrap = document.querySelector('.search-wrap');
+      if (wrap && !wrap.contains(e.target)) {
+        document.getElementById('searchDropdown').classList.remove('active');
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== document.getElementById('globalSearch')) {
+        e.preventDefault();
+        document.getElementById('globalSearch').focus();
+      } else if (e.key === 'Escape') {
+        document.getElementById('searchDropdown').classList.remove('active');
+      }
+    });
   </script>
 </body>
 </html>
